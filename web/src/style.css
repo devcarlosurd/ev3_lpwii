@@ -1,0 +1,42 @@
+:root {
+  color-scheme: dark;
+  font-family: "Trebuchet MS", system-ui, sans-serif;
+  background: #151629;
+  color: #f5efff;
+  --panel: #211f39;
+  --line: #4f486b;
+  --accent: #ffd477;
+  --muted: #c7bddc;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+a { color: var(--accent); text-underline-offset: 4px; }
+.nav { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between; padding: 1rem max(1rem, calc((100% - 1100px) / 2)); border-bottom: 1px solid var(--line); background: #1d1a32; }
+.nav nav { display: flex; gap: .9rem; flex-wrap: wrap; align-items: center; }
+.nav a { text-decoration: none; }
+.nav nav .router-link-active { text-decoration: underline; }
+.brand { font-size: 1.25rem; font-weight: bold; color: #f5efff; }
+.brand span { color: var(--accent); }
+main { width: min(1100px, calc(100% - 2rem)); margin: 2rem auto 4rem; }
+h1, h2 { line-height: 1.08; }
+h1 { font-size: clamp(2rem, 6vw, 4rem); margin: .4rem 0 1rem; }
+p { line-height: 1.55; }
+.hero { padding: clamp(1.5rem, 7vw, 5rem); background: #362553; border-left: .5rem solid var(--accent); }
+.panel, .item { padding: 1rem 1.25rem; background: var(--panel); border: 1px solid var(--line); }
+.panel { max-width: 42rem; margin: 1rem 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1rem; }
+.stack { display: grid; gap: .8rem; }
+.row { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+label { display: grid; gap: .35rem; }
+input, select, button { font: inherit; padding: .55rem .75rem; border: 1px solid var(--line); border-radius: .25rem; }
+input, select { color: inherit; background: #18162d; width: 100%; }
+button { color: #24172d; background: var(--accent); cursor: pointer; font-weight: bold; }
+button:disabled { opacity: .55; cursor: wait; }
+.subtle { color: inherit; background: transparent; }
+:focus-visible { outline: 3px solid #f8aafa; outline-offset: 3px; }
+.error { color: #ffb2b6; }
+.success { color: #aef0ca; }
+.muted { color: var(--muted); }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; }
+th, td { padding: .65rem; text-align: left; border-bottom: 1px solid var(--line); }
