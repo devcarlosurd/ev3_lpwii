@@ -12,6 +12,8 @@
 
 Se reserva cupo para inscripciones pendientes y aceptadas. La base garantiza una inscripción por par torneo y equipo. Las operaciones de inscripción y partidos toman un bloqueo sobre el torneo para evitar aceptar más equipos que el cupo o invalidar un partido programado.
 
+Las fechas del torneo se validan con precisión de segundos, igual que las columnas MySQL que las guardan.
+
 ## Apoyo de inteligencia artificial
 
-OpenAI Codex preparó el código para torneos, equipos e inscripciones en `api/competitions` y `web/src/features/competitions`. También preparó las pruebas de cupo en `test/entries.test.cjs` y ejecutó la compilación y las pruebas automáticas. La revisión personal de Jostin y las pruebas manuales deben registrarse con su evidencia.
+OpenAI Codex preparó el código para torneos, equipos e inscripciones en `api/competitions` y `web/src/features/competitions`. También preparó las pruebas de cupo y precisión de fechas en `test/entries.test.cjs` y `test/tournaments.test.cjs`, y ejecutó la compilación y las pruebas automáticas. La revisión personal de Jostin y las pruebas manuales deben registrarse con su evidencia.

@@ -4,6 +4,12 @@ import { DataSource, Not, Repository } from 'typeorm';
 import { Entry, EntryState, Match, Tournament } from '../entities';
 import { TournamentDto, UpdateTournamentDto } from './tournaments.dto';
 
+function mysqlDate(value: string) {
+  const date = new Date(value);
+  date.setUTCMilliseconds(0);
+  return date;
+}
+
 @Injectable()
 export class TournamentsService {
   constructor(
@@ -23,7 +29,7 @@ export class TournamentsService {
 
   create(dto: TournamentDto) {
     const tournament = this.tournaments.create({
-      ...dto, fechaInicio: new Date(dto.fechaInicio), cierreInscripcion: new Date(dto.cierreInscripcion),
+      ...dto, fechaInicio: mysqlDate(dto.fechaInicio), cierreInscripcion: mysqlDate(dto.cierreInscripcion),
     });
     this.checkDates(tournament);
     return this.tournaments.save(tournament);
@@ -35,8 +41,8 @@ export class TournamentsService {
       if (!tournament) throw new NotFoundException('Torneo no encontrado.');
       const { fechaInicio, cierreInscripcion, ...changes } = dto;
       Object.assign(tournament, changes);
-      if (fechaInicio !== undefined) tournament.fechaInicio = new Date(fechaInicio);
-      if (cierreInscripcion !== undefined) tournament.cierreInscripcion = new Date(cierreInscripcion);
+      if (fechaInicio !== undefined) tournament.fechaInicio = mysqlDate(fechaInicio);
+      if (cierreInscripcion !== undefined) tournament.cierreInscripcion = mysqlDate(cierreInscripcion);
       this.checkDates(tournament);
       const occupied = await manager.countBy(Entry, { torneoId: id, estado: Not(EntryState.Rejected) });
       if (occupied > tournament.cupoMaximo) throw new ConflictException('El cupo es menor que el número de equipos inscritos.');
