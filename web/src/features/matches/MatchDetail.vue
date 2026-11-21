@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { api } from '../../api';
 import Feedback from '../../Feedback.vue';
+import Score from './Score.vue';
 
 const route = useRoute();
 const match = ref(null);
@@ -23,5 +24,6 @@ onMounted(async () => {
     <h1>{{ match.local.nombre }} vs. {{ match.visitante.nombre }}</h1>
     <p>{{ match.torneo.nombre }} · {{ match.ronda }} · {{ match.estado }}</p>
     <p>{{ new Date(match.fechaHora).toLocaleString('es-CL') }}</p>
+    <Score :match="match" @recorded="match.estado = 'finalizado'" />
   </section>
 </template>
