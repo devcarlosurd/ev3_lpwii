@@ -6,10 +6,12 @@ import { MatchesController } from './matches.controller';
 import { MatchesService } from './matches.service';
 import { ResultsController } from './results.controller';
 import { ResultsService } from './results.service';
+import { RankingController } from './ranking.controller';
+import { RankingService } from './ranking.service';
 
 @Module({
   imports: [SecurityModule, TypeOrmModule.forFeature([Match, Result])],
-  controllers: [MatchesController, ResultsController],
-  providers: [MatchesService, ResultsService],
+  controllers: [MatchesController, ResultsController, RankingController],
+  providers: [MatchesService, ResultsService, RankingService],
 })
 export class MatchesModule {}
