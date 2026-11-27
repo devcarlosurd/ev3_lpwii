@@ -10,7 +10,7 @@ GameHub IPVG centraliza el registro de equipos, inscripciones, partidos y result
 
 Requisitos. Node.js 22.12 o superior, npm y MySQL Community Server. Ejecutar los comandos desde la raíz del repositorio.
 
-1. Ejecutar `npm ci`.
+1. Ejecutar `npm ci` para instalar las dependencias de los dos espacios de trabajo.
 2. En MySQL Workbench o el cliente `mysql`, conectarse con una cuenta administradora. Ejecutar este SQL reemplazando la contraseña de muestra por una local propia.
 
    ```sql
@@ -19,13 +19,20 @@ Requisitos. Node.js 22.12 o superior, npm y MySQL Community Server. Ejecutar los
    GRANT ALL PRIVILEGES ON gamehub.* TO 'gamehub'@'localhost';
    ```
 
-3. Copiar `.env.example` a `.env`. Completar `DB_PASSWORD`, `JWT_SECRET` (al menos 32 bytes) y `DEMO_PASSWORD` (al menos 8 caracteres). Para generar un secreto ejecutar `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`. Mantener `.env` local.
+3. Copiar `backend/.env.example` a `backend/.env`. Completar `DB_PASSWORD`, `JWT_SECRET` (al menos 32 bytes) y `DEMO_PASSWORD` (al menos 8 caracteres). Para generar un secreto ejecutar `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`. Mantener `.env` local. Si ya existe un `.env` en la raíz, el backend también lo carga. Los valores de `backend/.env` tienen prioridad sobre los del archivo de la raíz.
 4. Ejecutar `npm run seed`. Se crean datos y usuarios de demostración. Las credenciales de ejemplo se describen en [partidos y datos de prueba](docs/partidos.md).
 5. Ejecutar `npm run api` y, en otra terminal, `npm run web`. Abrir [GameHub](http://127.0.0.1:5173) y [Swagger](http://127.0.0.1:3000/docs).
 
 `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` y `DB_NAME` configuran la conexión a MySQL. `DB_SYNC=true` habilita la sincronización del esquema para desarrollo local. `PORT` y `WEB_ORIGIN` configuran la API y CORS. El proxy local de Vite espera la API en el puerto 3000.
 
 ## Arquitectura y modelo
+
+| Carpeta | Qué contiene |
+| --- | --- |
+| [`frontend/src/`](frontend/src) | Interfaz Vue, navegación, cliente HTTP y vistas por módulo en `features/`. |
+| [`backend/src/`](backend/src) | API NestJS, configuración MySQL, entidades y reglas de autenticación, competencias y partidos. |
+| [`backend/test/`](backend/test) | Pruebas de autenticación, torneos, inscripciones y ranking. |
+| [`docs/`](docs) | Guías y casos de prueba manuales. |
 
 Vue 3, Vite y Vue Router implementan la SPA. El cliente consume JSON con `fetch`. NestJS expone REST con módulos, controllers, services, DTO, ValidationPipe y guards. Los repositorios y transacciones TypeORM persisten en MySQL.
 

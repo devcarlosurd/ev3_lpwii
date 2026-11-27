@@ -13,4 +13,4 @@ En una cuenta de prueba, registrar un usuario, comprobar que un correo repetido 
 
 ## Apoyo de inteligencia artificial
 
-OpenAI Codex propuso e implementó el código de registro, login y perfil en `api/auth` y en `web/src/features/auth`, además del alta del administrador local y las pruebas en `test/auth.test.cjs`. Codex ejecutó las compilaciones de NestJS y Vue y las pruebas automáticas de autenticación. La revisión personal de Carlos y sus pruebas manuales quedan por registrar con su evidencia.
+OpenAI Codex propuso e implementó el código de registro, login y perfil en `backend/src/auth` y en `frontend/src/features/auth`, además del alta del administrador local y las pruebas en `backend/test/auth.test.cjs`. Codex ejecutó las compilaciones de NestJS y Vue y las pruebas automáticas de autenticación. La revisión personal de Carlos y sus pruebas manuales quedan por registrar con su evidencia.

@@ -16,4 +16,4 @@ Las fechas del torneo se validan con precisión de segundos, igual que las colum
 
 ## Apoyo de inteligencia artificial
 
-OpenAI Codex preparó el código para torneos, equipos e inscripciones en `api/competitions` y `web/src/features/competitions`. También preparó las pruebas de cupo y precisión de fechas en `test/entries.test.cjs` y `test/tournaments.test.cjs`, y ejecutó la compilación y las pruebas automáticas. La revisión personal de Jostin y las pruebas manuales deben registrarse con su evidencia.
+OpenAI Codex preparó el código para torneos, equipos e inscripciones en `backend/src/competitions` y `frontend/src/features/competitions`. También preparó las pruebas de cupo y precisión de fechas en `backend/test/entries.test.cjs` y `backend/test/tournaments.test.cjs`, y ejecutó la compilación y las pruebas automáticas. La revisión personal de Jostin y las pruebas manuales deben registrarse con su evidencia.
