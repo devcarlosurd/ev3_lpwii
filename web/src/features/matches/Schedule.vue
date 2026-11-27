@@ -17,8 +17,10 @@ onMounted(async () => {
   finally { loading.value = false; }
 });
 
+// Cambiar de torneo reinicia los equipos y carga sus inscripciones.
 watch(() => form.torneoId, async (id, _old, onCleanup) => {
   let current = true;
+  // Descarta la respuesta anterior si se selecciona otro torneo.
   onCleanup(() => { current = false; });
   form.equipoLocalId = form.equipoVisitanteId = '';
   teams.value = [];
@@ -27,12 +29,14 @@ watch(() => form.torneoId, async (id, _old, onCleanup) => {
   error.value = '';
   try {
     const entries = await api('/torneos/' + id + '/inscripciones');
+    // Solo ofrece equipos con inscripción aceptada.
     if (current) teams.value = entries.filter(entry => entry.estado === 'aceptada');
   } catch (failure) { if (current) error.value = failure.message; }
   finally { if (current) loading.value = false; }
 });
 
 async function create() {
+  // Evita elegir al mismo equipo en ambos lados.
   if (form.equipoLocalId === form.equipoVisitanteId) {
     error.value = 'Selecciona dos equipos distintos.';
     return;

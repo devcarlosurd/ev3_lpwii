@@ -21,6 +21,7 @@ export class AuthController {
   }
 
   @Post('login')
+  // El login responde 200 porque abre una sesión.
   @HttpCode(200)
   login(@Body() dto: LoginDto) {
     return this.service.login(dto);
@@ -28,6 +29,7 @@ export class AuthController {
 
   @Get('perfil')
   @ApiBearerAuth()
+  // Perfil protegido. El guard identifica al usuario de la sesión.
   @UseGuards(AccessGuard)
   profile(@Actor() user: User) {
     return publicUser(user);
@@ -37,6 +39,7 @@ export class AuthController {
   @ApiBearerAuth()
   @UseGuards(AccessGuard)
   async update(@Actor() user: User, @Body() dto: ProfileDto) {
+    // Actualiza el perfil del usuario autenticado usando su ID.
     await this.users.update(user.id, dto);
     return publicUser(Object.assign(user, dto));
   }

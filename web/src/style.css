@@ -1,3 +1,4 @@
+/* Variables de color compartidas por toda la interfaz. */
 :root {
   color-scheme: dark;
   font-family: "Trebuchet MS", system-ui, sans-serif;
@@ -24,6 +25,7 @@ p { line-height: 1.55; }
 .hero { padding: clamp(1.5rem, 7vw, 5rem); background: #362553; border-left: .5rem solid var(--accent); }
 .panel, .item { padding: 1rem 1.25rem; background: var(--panel); border: 1px solid var(--line); }
 .panel { max-width: 42rem; margin: 1rem 0; }
+/* La grilla ajusta sus columnas al ancho disponible. */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1rem; }
 .stack { display: grid; gap: .8rem; }
 .row { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
@@ -37,6 +39,7 @@ button:disabled { opacity: .55; cursor: wait; }
 .error { color: #ffb2b6; }
 .success { color: #aef0ca; }
 .muted { color: var(--muted); }
+/* Permite desplazar el ranking en pantallas angostas. */
 .table-wrap { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; }
 th, td { padding: .65rem; text-align: left; border-bottom: 1px solid var(--line); }

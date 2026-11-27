@@ -16,10 +16,12 @@ export class TeamsController {
   @Get(':id')
   detail(@Param('id', ParseIntPipe) id: number) { return this.service.detail(id); }
 
+  // La creación queda reservada al rol estudiante.
   @Post()
   @ApiBearerAuth() @UseGuards(AccessGuard) @RequireRole(Role.Student)
   create(@Actor() actor: User, @Body() dto: TeamDto) { return this.service.create(actor, dto); }
 
+  // El guard exige sesión y el servicio verifica quién puede editar.
   @Patch(':id')
   @ApiBearerAuth() @UseGuards(AccessGuard)
   update(@Actor() actor: User, @Param('id', ParseIntPipe) id: number, @Body() dto: UpdateTeamDto) {

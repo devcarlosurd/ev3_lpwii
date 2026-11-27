@@ -12,12 +12,14 @@ const loaded = ref(!id);
 const error = ref('');
 const form = reactive({ nombre: '', videojuego: '', modalidad: 'liga', fechaInicio: '', cierreInscripcion: '', cupoMaximo: 8, estado: 'abierto' });
 
+// Convierte la fecha de la API al formato local del formulario.
 function localDate(value) {
   const date = new Date(value);
   return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 }
 
 onMounted(async () => {
+  // Con ID, carga el torneo para editarlo.
   if (!id) return;
   try {
     const { nombre, videojuego, modalidad, fechaInicio, cierreInscripcion, cupoMaximo, estado } = await api('/torneos/' + id);
@@ -29,13 +31,16 @@ onMounted(async () => {
 
 async function save() {
   error.value = '';
+  // Avisa en el formulario si las fechas están en el orden incorrecto.
   if (form.cierreInscripcion >= form.fechaInicio) {
     error.value = 'Selecciona un cierre de inscripción anterior al inicio.';
     return;
   }
   loading.value = true;
   try {
+    // Convierte las fechas locales a ISO en UTC al enviarlas.
     const body = { ...form, cierreInscripcion: new Date(form.cierreInscripcion).toISOString(), fechaInicio: new Date(form.fechaInicio).toISOString() };
+    // Usa PATCH al editar y POST al crear.
     const saved = await api(id ? '/torneos/' + id : '/torneos', { method: id ? 'PATCH' : 'POST', body });
     await router.push({ path: '/torneos/' + saved.id, query: { guardado: '1' } });
   } catch (failure) { error.value = failure.message; }

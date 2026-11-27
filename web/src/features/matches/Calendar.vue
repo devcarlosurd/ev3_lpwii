@@ -6,6 +6,7 @@ import Feedback from '../../Feedback.vue';
 const matches = ref([]);
 const loading = ref(true);
 const error = ref('');
+// Consulta el calendario cuando se monta la vista.
 onMounted(async () => {
   try { matches.value = await api('/partidos'); }
   catch (failure) { error.value = failure.message; }

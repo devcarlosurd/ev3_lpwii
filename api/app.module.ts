@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { CompetitionsModule } from './competitions/competitions.module';
 import { MatchesModule } from './matches/matches.module';
 
+// Ruta de salud para comprobar que el servidor responde.
 @Controller('salud')
 class HealthController {
   @Get()
@@ -13,6 +14,7 @@ class HealthController {
   }
 }
 
+// Punto de unión de la conexión MySQL y los tres módulos.
 @Module({
   imports: [TypeOrmModule.forRootAsync({ useFactory: databaseOptions }), AuthModule, CompetitionsModule, MatchesModule],
   controllers: [HealthController],

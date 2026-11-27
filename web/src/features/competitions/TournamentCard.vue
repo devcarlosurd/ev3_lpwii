@@ -1,5 +1,6 @@
 <script setup>
 defineProps({ tournament: { type: Object, required: true } });
+// Emite el ID para que la vista padre navegue al detalle.
 defineEmits(['detail']);
 </script>
 

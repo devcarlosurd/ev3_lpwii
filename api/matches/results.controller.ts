@@ -13,6 +13,7 @@ export class ResultsController {
   @Get()
   get(@Param('id', ParseIntPipe) id: number) { return this.service.get(id); }
 
+  // La ruta exige rol administrador y pasa su ID al servicio.
   @Post()
   @ApiBearerAuth() @UseGuards(AccessGuard) @RequireRole(Role.Admin)
   record(@Param('id', ParseIntPipe) id: number, @Actor() actor: User, @Body() dto: ScoreDto) {

@@ -24,6 +24,7 @@ onMounted(async () => {
     <h1>{{ match.local.nombre }} vs. {{ match.visitante.nombre }}</h1>
     <p>{{ match.torneo.nombre }} · {{ match.ronda }} · {{ match.estado }}</p>
     <p>{{ new Date(match.fechaHora).toLocaleString('es-CL') }}</p>
+    <!-- Score avisa al padre cuando el marcador ya quedó guardado. -->
     <Score :match="match" @recorded="match.estado = 'finalizado'" />
   </section>
 </template>

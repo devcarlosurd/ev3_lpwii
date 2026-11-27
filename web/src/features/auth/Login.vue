@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { api, setSession } from '../../api';
 import Feedback from '../../Feedback.vue';
 
+// reactive enlaza los campos del formulario mediante v-model.
 const form = reactive({ correo: '', password: '' });
 const loading = ref(false);
 const error = ref('');
@@ -14,7 +15,9 @@ async function login() {
   error.value = '';
   loading.value = true;
   try {
+    // Guarda el JWT y los datos de la cuenta devueltos por la API.
     setSession(await api('/auth/login', { method: 'POST', body: form }));
+    // Tras ingresar, vuelve al destino solicitado si es una ruta interna.
     const next = route.query.volver;
     await router.push(typeof next === 'string' && next.startsWith('/') && !next.startsWith('//') ? next : '/');
   } catch (failure) {

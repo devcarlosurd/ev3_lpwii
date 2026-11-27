@@ -16,6 +16,7 @@ export class TournamentsController {
   @Get(':id')
   detail(@Param('id', ParseIntPipe) id: number) { return this.service.detail(id); }
 
+  // La administración del torneo exige sesión y rol administrador.
   @Post()
   @ApiBearerAuth() @UseGuards(AccessGuard) @RequireRole(Role.Admin)
   create(@Body() dto: TournamentDto) { return this.service.create(dto); }
@@ -26,6 +27,7 @@ export class TournamentsController {
     return this.service.update(id, dto);
   }
 
+  // Si se elimina correctamente, devuelve 204 sin cuerpo.
   @Delete(':id')
   @ApiBearerAuth() @UseGuards(AccessGuard) @RequireRole(Role.Admin) @HttpCode(204)
   remove(@Param('id', ParseIntPipe) id: number) { return this.service.remove(id); }

@@ -5,6 +5,7 @@ import { Match, MatchState, Mode, Result, Tournament } from '../entities';
 import { ScoreDto } from './matches.dto';
 
 export function winner(match: Pick<Match, 'equipoLocalId' | 'equipoVisitanteId'>, mode: Mode, score: ScoreDto) {
+  // En liga, null representa empate. En eliminación debe haber ganador.
   if (score.puntajeLocal === score.puntajeVisitante) {
     if (mode === Mode.Elimination) throw new BadRequestException('Un partido de eliminación requiere un ganador.');
     return null;
@@ -21,18 +22,22 @@ export class ResultsService {
 
   async get(partidoId: number) {
     if (!await this.database.manager.existsBy(Match, { id: partidoId })) throw new NotFoundException('Partido no encontrado.');
+    // Un partido existente y sin marcador devuelve resultado nulo.
     return { resultado: await this.results.findOneBy({ partidoId }) };
   }
 
   record(partidoId: number, registradoPor: number, dto: ScoreDto) {
     return this.database.transaction(async manager => {
+      // Bloquea el partido para serializar intentos de registrar el marcador.
       const match = await manager.findOne(Match, { where: { id: partidoId }, lock: { mode: 'pessimistic_write' } });
       if (!match) throw new NotFoundException('Partido no encontrado.');
+      // Devuelve 409 si ya hay un resultado oficial.
       if (match.estado === MatchState.Finished || await manager.existsBy(Result, { partidoId })) {
         throw new ConflictException('El partido ya tiene un resultado oficial.');
       }
       const tournament = await manager.findOneByOrFail(Tournament, { id: match.torneoId });
       const ganadorId = winner(match, tournament.modalidad, dto);
+      // Guarda el marcador y finaliza el partido en la misma transacción.
       const result = await manager.save(manager.create(Result, { ...dto, partidoId, registradoPor, ganadorId }));
       match.estado = MatchState.Finished;
       await manager.save(match);

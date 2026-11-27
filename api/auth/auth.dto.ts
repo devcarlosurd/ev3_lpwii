@@ -4,6 +4,7 @@ import { IsEmail, IsString, Length } from 'class-validator';
 
 export class LoginDto {
   @ApiProperty({ example: 'estudiante@example.test' })
+  // Normaliza el correo antes de validarlo y buscarlo.
   @Transform(({ value }) => typeof value === 'string' ? value.trim().toLowerCase() : value)
   @IsEmail() @Length(3, 180)
   correo!: string;
@@ -25,6 +26,7 @@ export class ProfileDto {
   alias!: string;
 }
 
+// Reutiliza las reglas de correo y contraseña del login.
 export class RegisterDto extends LoginDto {
   @ApiProperty()
   @Transform(({ value }) => typeof value === 'string' ? value.trim() : value)

@@ -1,4 +1,5 @@
 <script setup>
+// Componente compartido para carga, error, éxito y estado vacío.
 defineProps({ loading: Boolean, error: String, success: String, empty: String });
 </script>
 

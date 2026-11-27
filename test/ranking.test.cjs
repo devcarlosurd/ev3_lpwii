@@ -7,6 +7,7 @@ const match = { equipoLocalId: 1, equipoVisitanteId: 2 };
 
 test('el empate es válido en liga y se rechaza en eliminación', () => {
   const score = { puntajeLocal: 1, puntajeVisitante: 1 };
+  // El mismo empate se acepta en liga y falla en eliminación.
   assert.equal(winner(match, 'liga', score), null);
   assert.throws(() => winner(match, 'eliminacion', score), /requiere un ganador/);
   assert.equal(winner(match, 'eliminacion', { puntajeLocal: 0, puntajeVisitante: 1 }), 2);
@@ -19,6 +20,7 @@ test('la tabla suma victorias y empates y mantiene equipos sin partidos', () => 
     { partido: match, ganadorId: null, puntajeLocal: 2, puntajeVisitante: 2 },
   ];
   const rows = standings(teams, results);
+  // Compara los puntos y comprueba que aparezca el equipo sin partidos.
   assert.deepEqual(rows.map(row => [row.equipoId, row.puntos, row.jugados, row.victorias, row.derrotas, row.empates]), [
     [1, 4, 2, 1, 0, 1], [2, 1, 2, 0, 1, 1], [3, 0, 0, 0, 0, 0],
   ]);

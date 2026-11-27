@@ -12,6 +12,7 @@ const error = ref('');
 const success = ref('');
 const form = reactive({ puntajeLocal: 0, puntajeVisitante: 0 });
 const path = '/partidos/' + props.match.id + '/resultado';
+// Traduce el ID del ganador al nombre que se muestra.
 const winner = computed(() => result.value?.ganadorId === props.match.local.id ? props.match.local.nombre : props.match.visitante.nombre);
 
 onMounted(async () => {
@@ -22,6 +23,7 @@ onMounted(async () => {
 
 async function save() {
   error.value = '';
+  // Avisa antes de enviar si se intenta empatar en eliminación.
   if (props.match.torneo.modalidad === 'eliminacion' && form.puntajeLocal === form.puntajeVisitante) {
     error.value = 'El partido de eliminación requiere un ganador.';
     return;
@@ -29,6 +31,7 @@ async function save() {
   loading.value = true;
   try {
     result.value = await api(path, { method: 'POST', body: form });
+    // Notifica al detalle que puede mostrar el partido como finalizado.
     emit('recorded');
     success.value = 'Resultado oficial registrado.';
   } catch (failure) { error.value = failure.message; }

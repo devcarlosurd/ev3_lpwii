@@ -13,6 +13,7 @@ const mode = ref('');
 const showFilters = ref(true);
 const loading = ref(true);
 const error = ref('');
+// Combina búsqueda por texto y filtros de estado y modalidad.
 const filtered = computed(() => tournaments.value.filter(tournament => {
   const text = (tournament.nombre + ' ' + tournament.videojuego).toLocaleLowerCase('es');
   return text.includes(search.value.toLocaleLowerCase('es')) &&
@@ -22,6 +23,7 @@ const filtered = computed(() => tournaments.value.filter(tournament => {
 
 onMounted(async () => {
   try {
+    // Carga una vez el listado. Los filtros se aplican en Vue.
     tournaments.value = await api('/torneos');
   } catch (failure) {
     error.value = failure.message;

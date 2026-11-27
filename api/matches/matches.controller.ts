@@ -16,6 +16,7 @@ export class MatchesController {
   @Get(':id')
   detail(@Param('id', ParseIntPipe) id: number) { return this.service.detail(id); }
 
+  // Solo un administrador puede programar partidos.
   @Post()
   @ApiBearerAuth() @UseGuards(AccessGuard) @RequireRole(Role.Admin)
   create(@Body() dto: ScheduleDto) { return this.service.schedule(dto); }

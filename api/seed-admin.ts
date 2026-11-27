@@ -15,6 +15,7 @@ async function createAdmin() {
     if (current && (current.rol !== Role.Admin || !current.activo)) {
       throw new Error('Este correo de demostración ya está ocupado.');
     }
+    // Crea el administrador demo solo si el correo aún está libre.
     if (!current) {
       await users.save(users.create({ correo, nombre: 'Demo Admin', alias: 'admin', rol: Role.Admin, password: await hashPassword(password) }));
     }

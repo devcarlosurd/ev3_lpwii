@@ -1,4 +1,5 @@
 <script setup>
+// El router activa missing cuando la URL no coincide con ninguna ruta.
 defineProps({ missing: Boolean });
 </script>
 

@@ -2,6 +2,7 @@ import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsInt, IsString, Length, Max, Min } from 'class-validator';
 import { Mode, TournamentState } from '../entities';
 
+// Define el formato de fechas, los estados válidos y el rango de cupos.
 export class TournamentDto {
   @ApiProperty() @IsString() @Length(2, 100) nombre!: string;
   @ApiProperty() @IsString() @Length(2, 80) videojuego!: string;
@@ -12,4 +13,5 @@ export class TournamentDto {
   @ApiProperty({ enum: TournamentState }) @IsEnum(TournamentState) estado!: TournamentState;
 }
 
+// PATCH acepta campos omitidos y valida los campos enviados.
 export class UpdateTournamentDto extends PartialType(TournamentDto, { skipNullProperties: false }) {}

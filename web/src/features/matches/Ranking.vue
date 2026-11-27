@@ -10,6 +10,7 @@ const loading = ref(true);
 const error = ref('');
 
 onMounted(async () => {
+  // La API devuelve la tabla calculada y ordenada.
   try { data.value = await api('/torneos/' + route.params.id + '/ranking'); }
   catch (failure) { error.value = failure.message; }
   finally { loading.value = false; }
@@ -27,6 +28,7 @@ onMounted(async () => {
       <table>
         <thead><tr><th scope="col">Pos.</th><th scope="col">Equipo</th><th scope="col">Puntos</th><th scope="col">Jugados</th><th scope="col">Victorias</th><th scope="col">Empates</th><th scope="col">Derrotas</th><th scope="col">Diferencia</th></tr></thead>
         <tbody>
+          <!-- La posición visible parte en 1 porque el índice parte en 0. -->
           <tr v-for="(row, index) in data.posiciones" :key="row.equipoId">
             <td>{{ index + 1 }}</td><th scope="row">{{ row.nombre }}</th><td>{{ row.puntos }}</td><td>{{ row.jugados }}</td>
             <td>{{ row.victorias }}</td><td>{{ row.empates }}</td><td>{{ row.derrotas }}</td><td>{{ row.diferencia }}</td>

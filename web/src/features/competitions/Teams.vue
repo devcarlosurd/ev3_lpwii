@@ -24,6 +24,7 @@ async function create() {
   loading.value = true;
   try {
     const team = await api('/equipos', { method: 'POST', body: form });
+    // Agrega a la lista reactiva el equipo devuelto por la API.
     teams.value.push(team);
     form.nombre = form.juegoPreferido = '';
     success.value = 'Equipo creado.';

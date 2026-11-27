@@ -11,6 +11,7 @@ export class UpdateTeamDto extends TeamDto {
   @IsIn(['activo', 'inactivo']) estado!: string;
 
   @ApiPropertyOptional({ type: [String], example: ['jugador@example.test'] })
+  // Si se envían correos, deben ser válidos, únicos y hasta 30.
   @ValidateIf((_object, value) => value !== undefined)
   @IsArray() @ArrayUnique() @ArrayMaxSize(30) @IsEmail({}, { each: true })
   correos?: string[];

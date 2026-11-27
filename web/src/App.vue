@@ -4,7 +4,9 @@ import { session, setSession } from './api';
 
 const router = useRouter();
 const modules = import.meta.glob('./features/*/routes.js', { eager: true });
+// El menú se arma con las rutas que declaran una etiqueta.
 const routes = Object.values(modules).flatMap(module => module.routes);
+// Limpia la sesión y vuelve a la página de inicio.
 function logout() {
   setSession(null);
   router.push('/');
@@ -21,5 +23,6 @@ function logout() {
       <button v-if="session" type="button" class="subtle" @click="logout">Cerrar sesión</button>
     </nav>
   </header>
+  <!-- La clave hace que la vista se vuelva a montar al cambiar la ruta. -->
   <main><RouterView :key="$route.path" /></main>
 </template>

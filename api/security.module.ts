@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities';
 import { AccessGuard } from './security';
 
+// Comparte el guard y el servicio JWT con los módulos que los necesitan.
 @Module({
   imports: [JwtModule.register({}), TypeOrmModule.forFeature([User])],
   providers: [AccessGuard],

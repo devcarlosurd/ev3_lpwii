@@ -14,12 +14,14 @@ async function seed() {
   const now = Date.now();
   const database = await new DataSource(databaseOptions()).initialize();
   try {
+    // Carga todos los datos de demostración en una transacción.
     await database.transaction(async manager => {
       const users = [];
       for (const [alias, rol] of [['admin', Role.Admin], ['jade', Role.Student], ['titan', Role.Student], ['delta', Role.Student], ['iris', Role.Student]] as const) {
         const correo = alias + '@gamehub.example';
         let user = await manager.findOneBy(User, { correo });
         if (user && (user.rol !== rol || !user.activo)) throw new Error('El correo de demostración ya existe con otro estado o rol: ' + correo);
+        // Reutiliza las cuentas demo existentes.
         if (!user) {
           const salt = randomBytes(16).toString('hex');
           const hash = await derive(secret, salt, 64) as Buffer;
@@ -37,6 +39,7 @@ async function seed() {
       }
       for (const [index, videojuego] of ['Rocket League', 'Valorant'].entries()) {
         const nombre = 'Demo ' + videojuego;
+        // Prepara ejemplos de liga y eliminación.
         const modalidad = index === 0 ? Mode.League : Mode.Elimination;
         const torneo = await manager.findOneBy(Tournament, { nombre }) || await manager.save(manager.create(Tournament, {
           nombre, videojuego, modalidad, estado: index === 0 ? TournamentState.Closed : TournamentState.Open,
@@ -57,6 +60,7 @@ async function seed() {
             ...keys, fechaHora: new Date(torneo.fechaInicio.getTime() + 3600000),
             estado: index === 0 ? MatchState.Finished : MatchState.Scheduled,
           }));
+          // Guarda un marcador de liga para mostrar el ranking con datos.
           if (index === 0) {
             await manager.save(manager.create(Result, {
               partidoId: match.id, ganadorId: local.id, puntajeLocal: 3, puntajeVisitante: 1, registradoPor: users[0].id,

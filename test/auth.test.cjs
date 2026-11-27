@@ -6,12 +6,14 @@ const { AuthService } = require('../dist/auth/auth.service');
 test('una contraseña conserva su validez y usa una sal distinta', async () => {
   const first = await hashPassword('password de prueba');
   const second = await hashPassword('password de prueba');
+  // La misma contraseña produce hashes distintos por la sal.
   assert.notEqual(first, second);
   assert.equal(await checkPassword('password de prueba', first), true);
   assert.equal(await checkPassword('password incorrecta', first), false);
 });
 
 test('solo se puede registrar un estudiante y la respuesta omite la contraseña', async () => {
+  // Simula el repositorio para probar el registro sin MySQL.
   const users = {
     create: value => value,
     save: async value => Object.assign(value, { id: 1, activo: true }),

@@ -9,6 +9,7 @@ import { TeamsService } from './teams.service';
 import { TournamentsController } from './tournaments.controller';
 import { TournamentsService } from './tournaments.service';
 
+// Registra los endpoints, servicios y repositorios de competencias.
 @Module({
   imports: [SecurityModule, TypeOrmModule.forFeature([Tournament, Entry, Match, Team, User])],
   controllers: [TournamentsController, TeamsController, EntriesController],

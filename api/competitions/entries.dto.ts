@@ -6,6 +6,7 @@ export class EntryDto {
   @ApiProperty({ minimum: 1 }) @IsInt() @Min(1) equipoId!: number;
 }
 
+// La revisión solo admite aceptada o rechazada.
 export class ReviewEntryDto {
   @ApiProperty({ enum: [EntryState.Accepted, EntryState.Rejected] })
   @IsIn([EntryState.Accepted, EntryState.Rejected])

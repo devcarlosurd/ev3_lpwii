@@ -6,6 +6,7 @@ import TeamDetail from './TeamDetail.vue';
 
 export const routes = [
   { path: '/torneos', component: TournamentList, meta: { label: 'Torneos' } },
+  // Crear y editar usan el mismo formulario y requieren rol administrador.
   { path: '/torneos/nuevo', name: 'torneo-nuevo', component: TournamentForm, meta: { auth: true, admin: true } },
   { path: '/torneos/:id', component: TournamentDetail },
   { path: '/torneos/:id/editar', component: TournamentForm, meta: { auth: true, admin: true } },

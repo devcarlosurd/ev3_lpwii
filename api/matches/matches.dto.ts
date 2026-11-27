@@ -9,6 +9,7 @@ export class ScheduleDto {
   @ApiProperty() @IsString() @Length(2, 60) ronda!: string;
 }
 
+// Los dos puntajes llegan como enteros entre 0 y 999.
 export class ScoreDto {
   @ApiProperty({ minimum: 0, maximum: 999 }) @IsInt() @Min(0) @Max(999) puntajeLocal!: number;
   @ApiProperty({ minimum: 0, maximum: 999 }) @IsInt() @Min(0) @Max(999) puntajeVisitante!: number;

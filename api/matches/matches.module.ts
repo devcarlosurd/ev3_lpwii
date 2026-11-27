@@ -9,6 +9,7 @@ import { ResultsService } from './results.service';
 import { RankingController } from './ranking.controller';
 import { RankingService } from './ranking.service';
 
+// Agrupa calendario, resultados y ranking en el mismo módulo.
 @Module({
   imports: [SecurityModule, TypeOrmModule.forFeature([Match, Result])],
   controllers: [MatchesController, ResultsController, RankingController],

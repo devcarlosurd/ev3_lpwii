@@ -14,6 +14,7 @@ async function register() {
   loading.value = true;
   try {
     await api('/auth/registro', { method: 'POST', body: form });
+    // Regresa al login y activa el aviso de cuenta creada.
     await router.push({ path: '/ingresar', query: { registro: '1' } });
   } catch (failure) {
     error.value = failure.message;

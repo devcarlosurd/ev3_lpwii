@@ -10,15 +10,18 @@ import { EntriesService } from './entries.service';
 export class EntriesController {
   constructor(private readonly service: EntriesService) {}
 
+  // ParseIntPipe convierte el ID de la URL o responde 400.
   @Get()
   list(@Param('torneoId', ParseIntPipe) torneoId: number) { return this.service.list(torneoId); }
 
+  // La sesión identifica a quien intenta inscribir al equipo.
   @Post()
   @ApiBearerAuth() @UseGuards(AccessGuard)
   create(@Param('torneoId', ParseIntPipe) torneoId: number, @Body() dto: EntryDto, @Actor() actor: User) {
     return this.service.create(torneoId, dto.equipoId, actor);
   }
 
+  // Solo un administrador puede aceptar o rechazar.
   @Patch(':id')
   @ApiBearerAuth() @UseGuards(AccessGuard) @RequireRole(Role.Admin)
   review(@Param('torneoId', ParseIntPipe) torneoId: number, @Param('id', ParseIntPipe) id: number, @Body() dto: ReviewEntryDto) {

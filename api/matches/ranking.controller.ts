@@ -7,6 +7,7 @@ import { RankingService } from './ranking.service';
 export class RankingController {
   constructor(private readonly service: RankingService) {}
 
+  // Consulta pública de la tabla de un torneo.
   @Get()
   ranking(@Param('torneoId', ParseIntPipe) torneoId: number) { return this.service.ranking(torneoId); }
 }

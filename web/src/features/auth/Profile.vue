@@ -12,6 +12,7 @@ const success = ref('');
 onMounted(async () => {
   try {
     profile.value = await api('/auth/perfil');
+    // Precarga los campos editables con los datos de la API.
     Object.assign(form, { nombre: profile.value.nombre, alias: profile.value.alias });
   } catch (failure) {
     error.value = failure.message;
@@ -25,6 +26,7 @@ async function update() {
   error.value = success.value = '';
   try {
     profile.value = await api('/auth/perfil', { method: 'PATCH', body: form });
+    // Actualiza el usuario de la sesión y conserva el token.
     setSession({ ...session.value, user: profile.value });
     success.value = 'Perfil actualizado.';
   } catch (failure) {

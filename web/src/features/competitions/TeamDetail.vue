@@ -10,6 +10,7 @@ const loading = ref(true);
 const error = ref('');
 const success = ref('');
 const form = reactive({ nombre: '', juegoPreferido: '', estado: '', correos: '' });
+// Muestra el formulario al capitán o al administrador.
 const canEdit = computed(() => session.value && (session.value.user.rol === 'admin' || session.value.user.id === team.value?.capitanId));
 const replaceMembers = ref(false);
 
@@ -27,6 +28,7 @@ async function update() {
   loading.value = true;
   const { correos, ...fields } = form;
   try {
+    // Envía correos solo cuando se pide reemplazar integrantes.
     const body = replaceMembers.value ? { ...fields, correos: correos.split(',').map(value => value.trim()).filter(Boolean) } : fields;
     team.value = await api('/equipos/' + team.value.id, { method: 'PATCH', body });
     success.value = 'Equipo actualizado.';

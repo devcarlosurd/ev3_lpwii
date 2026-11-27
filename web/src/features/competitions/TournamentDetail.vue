@@ -15,12 +15,15 @@ const error = ref('');
 const success = ref(route.query.guardado ? 'Torneo guardado.' : '');
 const loading = ref(false);
 const admin = computed(() => session.value?.user.rol === 'admin');
+// Ofrece equipos activos, habilitados para este usuario y aún sin inscripción.
 const availableTeams = computed(() => teams.value.filter(team => team.estado === 'activo' &&
   (admin.value || team.capitanId === session.value?.user.id) && !entries.value.some(entry => entry.equipoId === team.id)));
+// Habilita el formulario mientras el torneo esté abierto y dentro de plazo.
 const open = computed(() => tournament.value?.estado === 'abierto' && new Date(tournament.value.cierreInscripcion) > new Date());
 const date = value => new Date(value).toLocaleString('es-CL');
 const path = '/torneos/' + id;
 
+// Centraliza el estado de carga y los mensajes de cada acción.
 async function act(work, message = '') {
   loading.value = true;
   error.value = '';
@@ -39,6 +42,7 @@ onMounted(() => act(async () => {
   if (session.value) teams.value = await api('/equipos');
 }));
 
+// Envía el equipo seleccionado y recarga las inscripciones.
 function submit() {
   return act(async () => {
     await api(path + '/inscripciones', { method: 'POST', body: { equipoId: teamId.value } });
@@ -47,6 +51,7 @@ function submit() {
   }, 'Inscripción enviada.');
 }
 
+// Envía la decisión del administrador y refresca el listado.
 function review(entry, estado) {
   return act(async () => {
     await api(path + '/inscripciones/' + entry.id, { method: 'PATCH', body: { estado } });
@@ -55,6 +60,7 @@ function review(entry, estado) {
 }
 
 function remove() {
+  // Pide confirmación antes de eliminar el torneo.
   if (!window.confirm('¿Eliminar este torneo y sus inscripciones?')) return;
   return act(async () => {
     await api(path, { method: 'DELETE' });
